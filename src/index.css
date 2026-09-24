@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+}
+
+/* Custom scrollbars and transitions for smooth government UI */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Custom camera target box pulse */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.99); }
+}
+
+.animate-target-pulse {
+  animation: pulse-subtle 2.5s infinite ease-in-out;
+}

@@ -44,86 +44,103 @@ function MainLayout({ children }) {
   );
 }
 
+function AppRoutes() {
+  const { isAuthenticated } = useAuth();
+
+  return (
+    <Routes>
+      {/* Root Route Handler */}
+      <Route
+        path="/"
+        element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />}
+      />
+
+      {/* Public Login Route */}
+      <Route path="/login" element={<LoginPage />} />
+
+      {/* Protected Routes */}
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <DashboardPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      {/* New Test 9-Step Workflow */}
+      <Route
+        path="/new-test"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <NewTestLayout />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<Navigate to="/new-test/kit" replace />} />
+        <Route path="kit" element={<Step1Kit />} />
+        <Route path="category" element={<Step2Category />} />
+        <Route path="sample" element={<Step3Sample />} />
+        <Route path="kit-details" element={<Step4KitDetails />} />
+        <Route path="instructions" element={<Step5Instructions />} />
+        <Route path="camera" element={<Step6Camera />} />
+        <Route path="analysis" element={<Step7Analysis />} />
+        <Route path="result" element={<Step8Result />} />
+        <Route path="record" element={<Step9Record />} />
+      </Route>
+
+      <Route
+        path="/history"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <HistoryPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <ProfilePage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <AdminPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Default Catch-all redirect */}
+      <Route
+        path="*"
+        element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />}
+      />
+    </Routes>
+  );
+}
+
 export default function App() {
   return (
     <AuthProvider>
       <TestProvider>
         <BrowserRouter>
-          <Routes>
-            {/* Public Login Route */}
-            <Route path="/login" element={<LoginPage />} />
-
-            {/* Protected Routes */}
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <MainLayout>
-                    <DashboardPage />
-                  </MainLayout>
-                </ProtectedRoute>
-              }
-            />
-
-            {/* New Test 9-Step Workflow */}
-            <Route
-              path="/new-test"
-              element={
-                <ProtectedRoute>
-                  <MainLayout>
-                    <NewTestLayout />
-                  </MainLayout>
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<Navigate to="/new-test/kit" replace />} />
-              <Route path="kit" element={<Step1Kit />} />
-              <Route path="category" element={<Step2Category />} />
-              <Route path="sample" element={<Step3Sample />} />
-              <Route path="kit-details" element={<Step4KitDetails />} />
-              <Route path="instructions" element={<Step5Instructions />} />
-              <Route path="camera" element={<Step6Camera />} />
-              <Route path="analysis" element={<Step7Analysis />} />
-              <Route path="result" element={<Step8Result />} />
-              <Route path="record" element={<Step9Record />} />
-            </Route>
-
-            <Route
-              path="/history"
-              element={
-                <ProtectedRoute>
-                  <MainLayout>
-                    <HistoryPage />
-                  </MainLayout>
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <MainLayout>
-                    <ProfilePage />
-                  </MainLayout>
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute>
-                  <MainLayout>
-                    <AdminPage />
-                  </MainLayout>
-                </ProtectedRoute>
-              }
-            />
-
-            {/* Default Catch-all redirect */}
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
-          </Routes>
+          <AppRoutes />
         </BrowserRouter>
       </TestProvider>
     </AuthProvider>

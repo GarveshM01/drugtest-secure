@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { DEMO_OFFICER } from '../services/mockData';
 
 const AuthContext = createContext(null);
@@ -6,7 +6,7 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [officer, setOfficer] = useState(() => {
     const saved = localStorage.getItem('drugtest_officer');
-    return saved ? JSON.parse(saved) : DEMO_OFFICER; // Default to demo officer logged in for smooth preview, or set to null
+    return saved ? JSON.parse(saved) : null; // Defaults to null so user starts at /login screen
   });
 
   const login = (officerId, unit, pin) => {
